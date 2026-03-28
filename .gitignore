@@ -1,0 +1,119 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ===== Virtual Environments =====
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv
+
+# ===== IDE & Editor =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.sublime-project
+.sublime-workspace
+*.code-workspace
+
+# ===== Project-Specific =====
+# Environment configuration
+.env
+.env.local
+.env.*.local
+
+# Generated data & models
+data/tax_profiles.csv
+backend/models/*.joblib
+backend/models/*_meta.txt
+backend/models/version.txt
+
+# Logs
+logs/
+*.log
+log.txt
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# OS Files
+.DS_Store
+Thumbs.db
+.directory
+*.tmp
+
+# ===== IDE Temporary Files =====
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.bak
+
+# ===== OS-Specific =====
+# Windows
+$RECYCLE.BIN/
+*.lnk
+Thumbs.db
+
+# macOS
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+.Xauthority
+.bash_history
+
+# ===== Temporary Files =====
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ===== Package Manager =====
+package-lock.json
+poetry.lock
+Pipfile.lock
+
+# ===== Archive Files =====
+*.zip
+*.rar
+*.tar.gz
+*.7z
+
+# ===== Keep These =====
+!.gitkeep
+!README.md
+!requirements.txt
+!config.py
