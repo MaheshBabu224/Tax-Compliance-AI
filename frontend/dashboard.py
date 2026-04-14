@@ -59,11 +59,80 @@ logger.info(f"Dashboard loaded with {len(df)} records")
 st.markdown(
     """
 <style>
+/* FORCE STREAMLIT ROOT DARK */
+[data-testid="stAppViewContainer"] {
+    background: #0a001a !important;
+}
+
+/* FIX HEADER AREA */
+header {
+    background: transparent !important;
+}
+
+/* REMOVE WHITE FROM TABS */
+.stTabs [data-baseweb="tab-list"] {
+    background-color: transparent !important;
+}
+
+.stTabs [data-baseweb="tab"] {
+    color: white !important;
+}
+
+/* FIX SELECTBOX / INPUTS */
+div[data-baseweb="select"] > div {
+    background-color: #1a002f !important;
+    color: white !important;
+}
+
+/* FIX TABLES */
+[data-testid="stDataFrame"] {
+    background-color: transparent !important;
+}
+
+/* FIX EXPANDER */
+.streamlit-expanderHeader {
+    background-color: #1a002f !important;
+    color: white !important;
+}
+
+/* FIX PLOTLY FULL DARK */
+.js-plotly-plot .plotly, 
+.js-plotly-plot .plot-container,
+.js-plotly-plot svg {
+    background-color: transparent !important;
+}
+
+/* MAIN APP BACKGROUND */
 .stApp {
-    background: linear-gradient(135deg, #0f172a, #020617);
+    background: linear-gradient(135deg, #2d0b4e, #0a001a) !important;
     color: white;
 }
 
+/* REMOVE WHITE CONTAINERS */
+section.main > div {
+    background-color: transparent !important;
+}
+
+/* SIDEBAR */
+section[data-testid="stSidebar"] {
+    background: #1a002f !important;
+}
+
+section[data-testid="stSidebar"] * {
+    color: white !important;
+}
+
+/* FIX PLOTS */
+.js-plotly-plot, .plot-container {
+    background-color: transparent !important;
+}
+
+/* FIX BLOCKS */
+.block-container {
+    background-color: transparent !important;
+}
+
+/* CARDS */
 .card {
     padding:20px;
     border-radius:12px;
@@ -72,21 +141,20 @@ st.markdown(
     font-weight: bold;
 }
 
+/* COLORS */
 .low { background:#22c55e; }
 .medium { background:#f59e0b; }
 .high { background:#f97316; }
 .critical { background:#ef4444; }
 
-section[data-testid="stSidebar"] * {
-    color:white !important;
-}
-
+/* INFO BOX */
 .info-box {
     padding: 15px;
     border-radius: 8px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.08);
     border-left: 4px solid #22c55e;
 }
+
 </style>
 """,
     unsafe_allow_html=True,
