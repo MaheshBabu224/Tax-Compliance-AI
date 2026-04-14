@@ -7,6 +7,8 @@ from pathlib import Path
 from datetime import datetime
 import joblib
 import logging
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+import numpy as np
 
 # Add parent directory to Python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -16,12 +18,44 @@ logger = logging.getLogger(__name__)
 
 class ModelManager:
     """Handles model saving, loading, and versioning"""
+    def evaluate_model(self, df):
+        # Features used during training
+        feature_columns = ["DeclaredIncome", "EstimatedIncome", "TaxEvaded"]
+
+        # Load latest model
+        model = self.load_model()
+        if model is None:
+            print("❌ No trained model found!")
+            return
+
+        # Ground truth
+        y_true = df["Anomaly"].apply(lambda x: 1 if x == "Anomaly" else 0)
+
+        # Predictions
+        preds = model.predict(df[feature_columns])
+        y_pred = np.array([1 if p == -1 else 0 for p in preds])
+
+        # Metrics
+        accuracy = accuracy_score(y_true, y_pred)
+        precision = precision_score(y_true, y_pred, zero_division=0)
+        recall = recall_score(y_true, y_pred, zero_division=0)
+        f1 = f1_score(y_true, y_pred, zero_division=0)
+        cm = confusion_matrix(y_true, y_pred)
+
+        print("\n===== MODEL PERFORMANCE =====")
+        print(f"Accuracy  : {accuracy:.2f}")
+        print(f"Precision : {precision:.2f}")
+        print(f"Recall    : {recall:.2f}")
+        print(f"F1 Score  : {f1:.2f}")
+        print("\nConfusion Matrix:")
+        print(cm)
+        print("============================\n")
 
     def __init__(self, model_dir="backend/models"):
         self.model_dir = model_dir
         Path(self.model_dir).mkdir(parents=True, exist_ok=True)
         self.version_file = os.path.join(self.model_dir, "version.txt")
-
+    
     def save_model(self, model, metadata=None):
         """
         Save model to disk with metadata

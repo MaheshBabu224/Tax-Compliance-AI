@@ -58,7 +58,7 @@ RISK_SCORE_CONFIG = {
 # ===== API CONFIG =====
 API_CONFIG = {
     "host": os.getenv("API_HOST", "localhost"),
-    "port": int(os.getenv("API_PORT", 5000)),
+    "port": int(os.getenv("API_PORT", 5001)),
     "debug": os.getenv("API_DEBUG", "False").lower() == "true",
 }
 

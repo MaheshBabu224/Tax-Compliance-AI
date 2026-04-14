@@ -235,7 +235,6 @@ def not_found(error):
     """Handle 404 errors"""
     return jsonify({"error": "Endpoint not found"}), 404
 
-
 @app.errorhandler(500)
 def internal_error(error):
     """Handle 500 errors"""
@@ -247,9 +246,18 @@ def internal_error(error):
 
 if __name__ == "__main__":
     logger.info("Starting Tax Compliance AI API...")
-    
+
+    try:
+        df = pd.read_csv(DATA_CONFIG["output_file"])
+        logger.info("Dataset loaded for evaluation")
+
+        model_manager.evaluate_model(df)
+
+    except Exception as e:
+        logger.error(f"Error during model evaluation: {e}")
+
     app.run(
         host=API_CONFIG["host"],
         port=API_CONFIG["port"],
-        debug=API_CONFIG["debug"]
+        debug=False
     )

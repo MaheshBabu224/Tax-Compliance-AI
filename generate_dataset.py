@@ -4,11 +4,14 @@ Tax compliance dataset generator with ML anomaly detection
 import sys
 import os
 from pathlib import Path
+from sklearn.metrics import accuracy_score
+
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import pandas as pd
+import numpy as np
 import random
 import logging
 from sklearn.ensemble import IsolationForest
@@ -73,9 +76,21 @@ def generate_dataset():
         
         case_config = risk_cases[case]
         extra = random.randint(case_config["extra_min"], case_config["extra_max"])
-        
+         
         estimated = declared + extra
         tax_evaded = int(extra * INCOME_CONFIG["tax_evasion_rate"])
+        # ✅ ADD NOISE
+
+        declared += np.random.randint(-20000, 20000)
+        estimated += np.random.randint(-30000, 30000)
+
+        # keep values valid
+        declared = max(10000, declared)
+        estimated = max(declared, estimated)
+
+        # ✅ TRUE LABEL (ground truth)
+        is_anomaly = 1 if extra > 70000 else 0
+
         
         # Calculate risk using model function
         risk_score, risk_level = calculate_risk(declared, estimated)
@@ -89,6 +104,7 @@ def generate_dataset():
             "TaxEvaded": tax_evaded,
             "RiskScore": risk_score,
             "RiskLevel": risk_level,
+            "TrueLabel": is_anomaly
         })
     
     df = pd.DataFrame(data)
@@ -105,6 +121,10 @@ def generate_dataset():
         df[["DeclaredIncome", "EstimatedIncome", "TaxEvaded"]]
     )
     df["Anomaly"] = df["Anomaly"].map({1: "Normal", -1: "Anomaly"})
+    y_pred = df["Anomaly"].map({"Normal": 0, "Anomaly": 1})
+    y_true = df["TrueLabel"]
+
+    accuracy = accuracy_score(y_true, y_pred)
     
     logger.info(f"Anomalies detected: {len(df[df['Anomaly'] == 'Anomaly'])}")
     
